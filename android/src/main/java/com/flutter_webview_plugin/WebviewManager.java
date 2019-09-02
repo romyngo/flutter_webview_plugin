@@ -15,6 +15,7 @@ import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.PermissionRequest;
 import android.widget.FrameLayout;
 import android.provider.MediaStore;
 import androidx.core.content.FileProvider;
@@ -246,6 +247,11 @@ class WebviewManager {
 
             public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
                 callback.invoke(origin, true, false);
+            }
+
+            @Override
+            public void onPermissionRequest(PermissionRequest request) {
+                request.grant(request.getResources());
             }
         });
     }
