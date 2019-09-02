@@ -22,6 +22,7 @@ import androidx.core.content.FileProvider;
 import android.database.Cursor;
 import android.provider.OpenableColumns;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -121,11 +122,14 @@ class WebviewManager {
     ResultHandler resultHandler;
     Context context;
 
-    WebviewManager(final Activity activity, final Context context) {
+    WebviewManager(final Activity activity, final Context context, final String permissions) {
         this.webView = new ObservableWebView(activity);
         this.activity = activity;
         this.context = context;
         this.resultHandler = new ResultHandler();
+
+        final List<String> requestedPermissions = (permissions != null) ? Arrays.asList(permissions.split(",")) : new ArrayList<String>();
+
         webViewClient = new BrowserClient();
         webView.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -251,6 +255,20 @@ class WebviewManager {
 
             @Override
             public void onPermissionRequest(PermissionRequest request) {
+
+                if(requestedPermissions.size() == 1 && request.getResources()[0].equals("*")) {
+                    request.grant(request.getResources());
+                    return;
+                }
+
+                for(String resource : request.getResources()) {
+
+                    if(!requestedPermissions.contains(resource)) {
+                        request.deny();
+                        return;
+                    }
+                }
+
                 request.grant(request.getResources());
             }
         });
