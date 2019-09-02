@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
             appBar: AppBar(
               title: const Text('Widget WebView'),
             ),
+            permissions: '*',
             withZoom: true,
             withLocalStorage: true,
             hidden: true,

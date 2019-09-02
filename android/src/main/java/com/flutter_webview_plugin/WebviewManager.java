@@ -256,19 +256,17 @@ class WebviewManager {
             @Override
             public void onPermissionRequest(PermissionRequest request) {
 
-                if(requestedPermissions.size() == 1 && request.getResources()[0].equals("*")) {
+                if(requestedPermissions.size() == 1 && requestedPermissions.get(0).equals("*")) {
                     request.grant(request.getResources());
                     return;
                 }
 
                 for(String resource : request.getResources()) {
-
                     if(!requestedPermissions.contains(resource)) {
                         request.deny();
                         return;
                     }
                 }
-
                 request.grant(request.getResources());
             }
         });
