@@ -10,6 +10,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
+import android.webkit.JavascriptInterface;
 import android.webkit.GeolocationPermissions;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
@@ -270,6 +271,8 @@ class WebviewManager {
                 request.grant(request.getResources());
             }
         });
+
+        webView.addJavascriptInterface(new WebAppInterface(), "Android");
     }
 
     private Uri getOutputFilename(String intentType) {
@@ -393,7 +396,7 @@ class WebviewManager {
         webView.getSettings().setAllowUniversalAccessFromFileURLs(allowFileURLs);
 
         webView.getSettings().setUseWideViewPort(useWideViewPort);
-        
+
         // Handle debugging
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             webView.setWebContentsDebuggingEnabled(debuggingEnabled);
@@ -527,6 +530,15 @@ class WebviewManager {
     void stopLoading(MethodCall call, MethodChannel.Result result){
         if (webView != null){
             webView.stopLoading();
+        }
+    }
+
+    public class WebAppInterface {
+        @JavascriptInterface
+        public void getPostMessage(String value){
+            Map<String, Object> map = new HashMap<>();
+            map.put("postMessage", value);
+            FlutterWebviewPlugin.channel.invokeMethod("onFaceDetected", map);
         }
     }
 }
