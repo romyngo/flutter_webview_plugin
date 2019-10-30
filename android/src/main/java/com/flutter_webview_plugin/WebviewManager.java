@@ -272,7 +272,7 @@ class WebviewManager {
             }
         });
 
-        webView.addJavascriptInterface(new WebAppInterface(), "Android");
+        webView.addJavascriptInterface(new WebAppInterface(), "WebAppInterface");
     }
 
     private Uri getOutputFilename(String intentType) {
