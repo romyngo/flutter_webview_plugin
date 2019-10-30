@@ -538,7 +538,12 @@ class WebviewManager {
         public void getPostMessage(String value){
             Map<String, Object> map = new HashMap<>();
             map.put("postMessage", value);
-            FlutterWebviewPlugin.channel.invokeMethod("onFaceDetected", map);
+            webView.post(new Runnable() {
+                @Override
+                public void run() {
+                    FlutterWebviewPlugin.channel.invokeMethod("onFaceDetected", map);
+                }
+            });
         }
     }
 }
