@@ -536,7 +536,7 @@ class WebviewManager {
     public class WebAppInterface {
         @JavascriptInterface
         public void getPostMessage(String value){
-            Map<String, Object> map = new HashMap<>();
+            final Map<String, Object> map = new HashMap<>();
             map.put("postMessage", value);
             webView.post(new Runnable() {
                 @Override
