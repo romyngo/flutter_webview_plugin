@@ -95,7 +95,7 @@ class FlutterWebviewPlugin {
 
   Stream<WebViewHttpError> get onHttpError => _onHttpError.stream;
 
-  Stream<String> get lightningLinkStream => _faceDetectStream.stream;
+  Stream<String> get faceDetectStream => _faceDetectStream.stream;
 
   /// Start the Webview with [url]
   /// - [headers] specify additional HTTP headers
